@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 import uvicorn
 
@@ -13,4 +15,4 @@ app.include_router(ImageRouter(), tags=["Images"])
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, port=8000)
+    uvicorn.run(app, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
