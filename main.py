@@ -13,4 +13,4 @@ app.include_router(ImageRouter(), tags=["Images"])
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="https://api-spec-emo4.onrender.com", port=8000)
+    uvicorn.run(app, port=8000)
