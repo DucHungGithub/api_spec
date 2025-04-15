@@ -1,7 +1,28 @@
+from typing import List
 from pydantic import BaseModel
 
 class PromotionResponseModel(BaseModel):
     promotion_id: str 
-    number_of_outlets: int 
-    validated_by_sa: bool = False 
-    validated_by_fa: bool = False 
+    promotion_name: str
+    region: str
+    zone: str
+    area: str
+
+class PromotionPaginationResponseModel(BaseModel):
+    data: List[PromotionResponseModel]
+    total: int
+
+class OutletJoinedPromotionResponseModel(BaseModel):
+    outlet_id: str
+    outlet_name: str
+    promotion_id: str
+    region: str
+    zone: str
+    area: str
+    total_photos: int
+
+class OutletJoinedPromotionPaginationResponseModel(BaseModel):
+    data: List[OutletJoinedPromotionResponseModel]
+    total: int
+    total_outlets: int
+    total_photos: int

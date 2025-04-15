@@ -1,12 +1,13 @@
 from typing import Literal
 
+from enums.validation_status import ValidationStatus
 from pydantic import BaseModel
 
 
 class ImageResponseModel(BaseModel):
     image_id: str
     upload_time: str 
-    sr_validation: Literal["Unvalidate", "PASS", "FAIL"]
-    ai_validation: Literal["Unvalidate", "PASS", "FAIL"]
-    sa_validation: Literal["Unvalidate", "PASS", "FAIL"]
-    fa_validation: Literal["Unvalidate", "PASS", "FAIL"]
+    sr_validation: ValidationStatus
+    ai_validation: ValidationStatus
+    sa_validation: ValidationStatus
+    fa_validation: ValidationStatus

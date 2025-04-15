@@ -1,7 +1,9 @@
 from typing import Literal
 
+from enums.validation_status import ValidationStatus
 from pydantic import BaseModel
-
 class ScoreRequestModel(BaseModel):
-    score: Literal["PASS", "FAIL"]
-    scorer_id: str
+    sr_validation: ValidationStatus
+    ai_validation: ValidationStatus
+    sa_validation: ValidationStatus
+    fa_validation: ValidationStatus
