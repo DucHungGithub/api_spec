@@ -198,7 +198,7 @@ class OutletRouter(APIRouter):
         self.images_by_promotion = {
             "outlet1_promo1": [
                 {
-                    "image_id": "img001",
+                    "image_id": "img1",
                     "upload_time": "2025-04-01T10:00:00Z",
                     "sr_validation": ValidationStatus.PASSED,
                     "ai_validation": ValidationStatus.PASSED,
@@ -206,7 +206,7 @@ class OutletRouter(APIRouter):
                     "fa_validation": ValidationStatus.UNVALIDATED
                 },
                 {
-                    "image_id": "img002",
+                    "image_id": "img2",
                     "upload_time": "2025-04-01T11:30:00Z",
                     "sr_validation": ValidationStatus.PASSED,
                     "ai_validation": ValidationStatus.FAILED,
@@ -216,7 +216,7 @@ class OutletRouter(APIRouter):
             ],
             "outlet1_promo2": [
                 {
-                    "image_id": "img004",
+                    "image_id": "img4",
                     "upload_time": "2025-04-02T09:15:00Z",
                     "sr_validation": ValidationStatus.PASSED,
                     "ai_validation": ValidationStatus.PASSED,
@@ -226,7 +226,7 @@ class OutletRouter(APIRouter):
             ],
             "outlet1_promo4": [
                 {
-                    "image_id": "img008",
+                    "image_id": "img8",
                     "upload_time": "2025-04-05T14:20:00Z",
                     "sr_validation": ValidationStatus.PASSED,
                     "ai_validation": ValidationStatus.PASSED,
@@ -236,7 +236,7 @@ class OutletRouter(APIRouter):
             ],
             "outlet2_promo1": [
                 {
-                    "image_id": "img003",
+                    "image_id": "img3",
                     "upload_time": "2025-04-01T13:45:00Z",
                     "sr_validation": ValidationStatus.PASSED,
                     "ai_validation": ValidationStatus.PASSED,
@@ -246,7 +246,7 @@ class OutletRouter(APIRouter):
             ],
             "outlet2_promo3": [
                 {
-                    "image_id": "img006",
+                    "image_id": "img6",
                     "upload_time": "2025-04-03T16:30:00Z",
                     "sr_validation": ValidationStatus.PASSED,
                     "ai_validation": ValidationStatus.PASSED,
@@ -256,7 +256,7 @@ class OutletRouter(APIRouter):
             ],
             "outlet3_promo2": [
                 {
-                    "image_id": "img005",
+                    "image_id": "img5",
                     "upload_time": "2025-04-02T11:00:00Z",
                     "sr_validation": ValidationStatus.PASSED,
                     "ai_validation": ValidationStatus.PASSED,
@@ -266,7 +266,7 @@ class OutletRouter(APIRouter):
             ],
             "outlet3_promo5": [
                 {
-                    "image_id": "img010",
+                    "image_id": "img10",
                     "upload_time": "2025-04-10T10:45:00Z",
                     "sr_validation": ValidationStatus.PASSED,
                     "ai_validation": ValidationStatus.PASSED,
@@ -276,7 +276,7 @@ class OutletRouter(APIRouter):
             ],
             "outlet4_promo3": [
                 {
-                    "image_id": "img007",
+                    "image_id": "img7",
                     "upload_time": "2025-04-04T09:30:00Z",
                     "sr_validation": ValidationStatus.PASSED,
                     "ai_validation": ValidationStatus.PASSED,
@@ -286,7 +286,7 @@ class OutletRouter(APIRouter):
             ],
             "outlet5_promo4": [
                 {
-                    "image_id": "img009",
+                    "image_id": "img9",
                     "upload_time": "2025-04-08T15:20:00Z",
                     "sr_validation": ValidationStatus.PASSED,
                     "ai_validation": ValidationStatus.PASSED,
@@ -378,12 +378,12 @@ class OutletRouter(APIRouter):
             total_photos=total_photos
         )
     
-    async def get_outlet_promotion(self, outlet_id: int, promotion_id: int) -> PromotionByOutletResponseModel:
+    async def get_outlet_promotion(self, outlet_id: str, promotion_id: str) -> PromotionByOutletResponseModel:
         """
         Returns details of a specific promotion for the given outlet.
         """
-        str_outlet_id = f"outlet{outlet_id}"
-        str_promotion_id = f"promo{promotion_id}"
+        str_outlet_id = outlet_id
+        str_promotion_id = promotion_id
         
         if str_outlet_id not in self.promotions_by_outlet:
             # Return placeholder if outlet not found
@@ -411,12 +411,12 @@ class OutletRouter(APIRouter):
             total_photos=0
         )
     
-    async def get_promotion_images(self, outlet_id: int, promotion_id: int) -> List[ImageResponseModel]:
+    async def get_promotion_images(self, outlet_id: str, promotion_id: str) -> List[ImageResponseModel]:
         """
         Returns a list of images associated with the specified promotion at the outlet.
         """
-        str_outlet_id = f"outlet{outlet_id}"
-        str_promotion_id = f"promo{promotion_id}"
+        str_outlet_id = outlet_id
+        str_promotion_id = promotion_id
         
         # Create key for images lookup
         key = f"{str_outlet_id}_{str_promotion_id}"

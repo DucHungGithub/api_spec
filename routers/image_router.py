@@ -33,7 +33,7 @@ class ImageRouter(APIRouter):
         if image_id not in self.image_paths:
             # Handle case where image doesn't exist
             # In production, this would return a 404
-            return FileResponse("static/images/1.jpg")
+            return FileResponse("static/images/notfound.png")
             
         image_path = self.base_dir / self.image_paths[image_id]
         
