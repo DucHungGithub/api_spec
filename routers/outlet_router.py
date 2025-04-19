@@ -29,45 +29,22 @@ class OutletRouter(APIRouter):
             summary="Get details of a specific outlet"
         )
         
-        self.add_api_route(
-            "/{outlet_id}/promotions",
-            self.get_outlet_promotions,
-            methods=["GET"],
-            status_code=200,
-            summary="Get promotions for a specific outlet"
-        )
+        # self.add_api_route(
+        #     "/{outlet_id}/promotions",
+        #     self.get_outlet_promotions,
+        #     methods=["GET"],
+        #     status_code=200,
+        #     summary="Get promotions for a specific outlet"
+        # )
         
-        self.add_api_route(
-            "/{outlet_id}/promotions/{promotion_id}",
-            self.get_outlet_promotion,
-            methods=["GET"],
-            status_code=200,
-            summary="Get details of a specific promotion for an outlet"
-        )
+        # self.add_api_route(
+        #     "/{outlet_id}/promotions/{promotion_id}",
+        #     self.get_outlet_promotion,
+        #     methods=["GET"],
+        #     status_code=200,
+        #     summary="Get details of a specific promotion for an outlet"
+        # )
         
-        self.add_api_route(
-            "/{outlet_id}/promotions/{promotion_id}/images",
-            self.get_promotion_images,
-            methods=["GET"],
-            status_code=200,
-            summary="Get images for a specific promotion"
-        )
-        
-        self.add_api_route(
-            "/{outlet_id}/promotions/{promotion_id}/images/{image_id}",
-            self.get_promotion_image,
-            methods=["GET"],
-            status_code=200,
-            summary="Get details of a specific image"
-        )
-        
-        self.add_api_route(
-            "/{outlet_id}/promotions/{promotion_id}/images/{image_id}",
-            self.score_image,
-            methods=["POST"],
-            status_code=201,
-            summary="Submit a score for an image"
-        )
         
 
     async def get_outlets(
@@ -124,45 +101,3 @@ class OutletRouter(APIRouter):
             validated_by_fa=False,
             total_photos=100
         )
-    
-    async def get_promotion_images(
-        self, 
-        outlet_id: int, 
-        promotion_id: int, 
-        limit: int = Query(10, description="Limit the number of images returned"),
-        offset: int = Query(0, description="Offset for pagination")
-    ) -> List[ImageResponseModel]:
-        """
-        Returns a list of images associated with the specified promotion at the outlet.
-        """
-        total = 100
-        images = [ImageResponseModel(
-            image_id=str(i),
-            upload_time=f"2024-01-01 {i}",
-            sr_validation=ValidationStatus.UNVALIDATED,
-            ai_validation=ValidationStatus.UNVALIDATED,
-            sa_validation=ValidationStatus.UNVALIDATED,
-            fa_validation=ValidationStatus.UNVALIDATED
-        ) for i in range(1, total + 1)]
-        return images[offset:offset+limit]
-    
-    async def get_promotion_image(self, outlet_id: int, promotion_id: int, image_id: int) -> ImageResponseModel:
-        """
-        Returns details of a specific image for the promotion at the outlet.
-        """
-        return ImageResponseModel(
-            image_id=str(image_id),
-            upload_time=f"2024-01-01 {image_id}",
-            sr_validation=ValidationStatus.UNVALIDATED,
-            ai_validation=ValidationStatus.UNVALIDATED,
-            sa_validation=ValidationStatus.UNVALIDATED,
-            fa_validation=ValidationStatus.UNVALIDATED
-        )
-    
-    async def score_image(self, image_id: int, score_input: ScoreRequestModel) -> None:
-        """
-        Submits a score for the specified image associated with a promotion at an outlet.
-        Request body expects a JSON object with a 'score' field (integer).
-        """
-        return None
-    

@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 import uvicorn
 
-from routers import OutletRouter, PromotionRouter, ImageRouter
+from routers import OutletRouter, PromotionRouter, ImageRouter, LocationRouter, StaffRouter
 
 
 
@@ -140,6 +140,8 @@ app = FastAPI()
 
 app.include_router(OutletRouter(), prefix="/outlets", tags=["Outlets"])
 app.include_router(PromotionRouter(), prefix="/promotions", tags=["Promotions"])
+app.include_router(LocationRouter(), prefix="/locationis", tags=["Locations"])
+app.include_router(StaffRouter(), prefix="/staffs", tags=["Staffs"])
 app.include_router(ImageRouter(), tags=["Images"])
 
 app.openapi = partial(custom_openapi, app)

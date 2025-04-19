@@ -1,12 +1,16 @@
 from typing import List
 from pydantic import BaseModel
 
+from enums.validation_status import ValidationStatus
+
 class PromotionResponseModel(BaseModel):
     promotion_id: str 
     promotion_name: str
     region: str
     zone: str
     area: str
+    sa_kpi_progress: float
+    fa_kpi_progress: float
 
 class PromotionPaginationResponseModel(BaseModel):
     data: List[PromotionResponseModel]
@@ -19,6 +23,9 @@ class OutletJoinedPromotionResponseModel(BaseModel):
     region: str
     zone: str
     area: str
+    ai_validation_result: ValidationStatus
+    is_validated_by_sa: bool
+    is_validated_by_fa: bool
     total_photos: int
 
 class OutletJoinedPromotionPaginationResponseModel(BaseModel):
