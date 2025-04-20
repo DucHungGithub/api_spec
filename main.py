@@ -140,7 +140,7 @@ app = FastAPI()
 
 app.include_router(OutletRouter(), prefix="/outlets", tags=["Outlets"])
 app.include_router(PromotionRouter(), prefix="/promotions", tags=["Promotions"])
-app.include_router(LocationRouter(), prefix="/locationis", tags=["Locations"])
+app.include_router(LocationRouter(), prefix="/locations", tags=["Locations"])
 app.include_router(StaffRouter(), prefix="/staffs", tags=["Staffs"])
 app.include_router(ImageRouter(), tags=["Images"])
 

@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import APIRouter
 
 from models.staffs.response_model import FAResponseModel, SAResponseModel
@@ -23,13 +25,13 @@ class StaffRouter(APIRouter):
         )
         
     
-    async def get_sa(self):
+    async def get_sa(self) -> List[SAResponseModel]:
         return [SAResponseModel(
             id=str(i),
             name=f"sa_{i}"
         ) for i in range(100)]
     
-    async def get_fa(self):
+    async def get_fa(self) -> List[FAResponseModel]:
         return [FAResponseModel(
             id=str(i),
             name=f"fa_{i}"
