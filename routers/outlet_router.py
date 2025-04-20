@@ -29,6 +29,10 @@ class OutletRouter(APIRouter):
             summary="Get details of a specific outlet"
         )
         
+
+        
+        
+        
         # self.add_api_route(
         #     "/{outlet_id}/promotions",
         #     self.get_outlet_promotions,

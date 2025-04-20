@@ -63,6 +63,8 @@ class PromotionRouter(APIRouter):
         region: Optional[str] = Query(None, description="Filter promotions by region"),
         zone: Optional[str] = Query(None, description="Filter promotions by zone"),
         area: Optional[str] = Query(None, description="Filter promotions by area"),
+        id: Optional[str] = Query(None, description="Filter promotions by id"),
+        name: Optional[str] = Query(None, description="Filter promotions by name"),
         limit: int = Query(10, description="Limit the number of outlets returned"),
         offset: int = Query(0, description="Offset for pagination")
     ) -> PromotionPaginationResponseModel:
@@ -86,32 +88,81 @@ class PromotionRouter(APIRouter):
     async def get_promotion_outlets(
         self, 
         promotion_id: str, 
+        validate_by_ai: Optional[ValidationStatus] = Query(None, description="Filter outlets validated by AI"),
+        validate_by_sa: Optional[ValidationStatus] = Query(None, description="Filter outlets validated by SA"),
+        validate_by_fa: Optional[ValidationStatus] = Query(None, description="Filter outlets validated by FA"),
         limit: int = Query(10, description="Limit the number of outlets returned"),
         offset: int = Query(0, description="Offset for pagination")
     ) -> OutletJoinedPromotionPaginationResponseModel:
         """
         Returns a list of outlets that offer the specified promotion.
         """
-        total = 100
-        outlets = [OutletJoinedPromotionResponseModel(
-            outlet_id=str(i), 
-            promotion_id=promotion_id,
-            outlet_name=f"Outlet {i}", 
-            region=f"Region {i}", 
-            zone=f"Zone {i}", 
-            area=f"Area {i}",
-            ai_validation_result=ValidationStatus.FAILED,
-            is_validated_by_fa=True,
-            is_validated_by_sa=False,
-            total_photos=10
-        ) for i in range(1, total + 1)]
-        return OutletJoinedPromotionPaginationResponseModel(
-            data=outlets[offset:offset+limit], 
-            total=total,
-            total_outlets=total,
-            total_photos=total
-        )
+        total_outlets = 100
+        outlets = [
+            OutletJoinedPromotionResponseModel(
+                outlet_id=str(i), 
+                promotion_id=promotion_id,
+                outlet_name=f"Outlet {i}", 
+                region=f"Region {i}", 
+                zone=f"Zone {i}", 
+                area=f"Area {i}",
+                ai_validation_result=ValidationStatus.FAILED,
+                fa_validated_result=ValidationStatus.PASSED,
+                sa_validated_result=ValidationStatus.FAILED,
+                total_photos=10
+            ) for i in range(1, total_outlets + 1)
+        ]
+        
+        outlets.extend([
+            OutletJoinedPromotionResponseModel(
+                outlet_id=str(i), 
+                promotion_id=promotion_id,
+                outlet_name=f"Outlet {i}", 
+                region=f"Region {i}", 
+                zone=f"Zone {i}", 
+                area=f"Area {i}",
+                ai_validation_result=ValidationStatus.PASSED,
+                fa_validated_result=ValidationStatus.FAILED,
+                sa_validated_result=ValidationStatus.PASSED,
+                total_photos=10
+            ) for i in range(100, 150)
+        ]) 
+        
+        outlets.extend([
+            OutletJoinedPromotionResponseModel(
+                outlet_id=str(i), 
+                promotion_id=promotion_id,
+                outlet_name=f"Outlet {i}", 
+                region=f"Region {i}", 
+                zone=f"Zone {i}", 
+                area=f"Area {i}",
+                ai_validation_result=ValidationStatus.UNVALIDATED,
+                fa_validated_result=ValidationStatus.FAILED,
+                sa_validated_result=ValidationStatus.FAILED,
+                total_photos=10
+            ) for i in range(150, 200)
+        ]) 
+
+        # Apply filters
+        if validate_by_ai is not None:
+            outlets = [o for o in outlets if o.ai_validation_result == validate_by_ai]
+
+        if validate_by_sa is not None:
+            outlets = [o for o in outlets if o.sa_validated_result == validate_by_sa]
             
+        if validate_by_fa is not None:
+            outlets = [o for o in outlets if o.fa_validated_result == validate_by_fa]
+
+        paginated_outlets = outlets[offset:offset + limit]
+        total_photos = sum(o.total_photos for o in outlets)
+
+        return OutletJoinedPromotionPaginationResponseModel(
+            data=paginated_outlets, 
+            total=len(outlets),
+            total_outlets=len(outlets),
+            total_photos=total_photos
+        )
+                
             
        
     async def get_promotion_images(

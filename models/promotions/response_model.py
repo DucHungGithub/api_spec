@@ -24,8 +24,8 @@ class OutletJoinedPromotionResponseModel(BaseModel):
     zone: str
     area: str
     ai_validation_result: ValidationStatus
-    is_validated_by_sa: bool
-    is_validated_by_fa: bool
+    sa_validated_result: ValidationStatus
+    fa_validated_result: ValidationStatus
     total_photos: int
 
 class OutletJoinedPromotionPaginationResponseModel(BaseModel):
