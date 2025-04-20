@@ -7,7 +7,6 @@ from models.outlet_promotion.sql_model import OutletPromotion
 class OutletBase(SQLModel):
     outlet_name: str
     region: str
-    zone: str
     area: str
     
 class OutletRead(OutletBase):

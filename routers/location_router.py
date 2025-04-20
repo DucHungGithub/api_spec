@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter
 
-from models.locations.response_model import RegionResponseModel, ZoneResponseModel
+from models.locations.response_model import RegionResponseModel, AreaResponseModel
 
 class LocationRouter(APIRouter):
     def __init__(self, *args, **kwargs) -> None:
@@ -17,11 +17,11 @@ class LocationRouter(APIRouter):
         )
         
         self.add_api_route(
-            "/zones",
-            self.get_zones,
+            "/areas",
+            self.get_areas,
             methods=["GET"],
             status_code=200,
-            summary="Get all zones"
+            summary="Get all areas"
         )
         
         
@@ -31,8 +31,8 @@ class LocationRouter(APIRouter):
             name=f"region_{i}"
         ) for i in range(100)]
     
-    async def get_zones(self) -> List[ZoneResponseModel]:
-        return [ZoneResponseModel(
+    async def get_areas(self) -> List[AreaResponseModel]:
+        return [AreaResponseModel(
             id=str(i),
-            name=f"zone_{i}"
+            name=f"area_{i}"
         ) for i in range(100)]

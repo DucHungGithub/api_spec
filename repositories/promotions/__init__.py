@@ -26,12 +26,10 @@ class PromotionRepository:
     def get_promotions(
         self,
         region: Optional[str] = None,
-        zone: Optional[str] = None,
         area: Optional[str] = None,
         limit: int = 10,
         offset: int = 0
     ) -> Dict[str, Any]:
-        # For region/zone/area filtering, we need to join with outlets
         query = (
             select(Promotion)
             .join(OutletPromotion)
@@ -42,8 +40,6 @@ class PromotionRepository:
         conditions = []
         if region:
             conditions.append(Outlet.region == region)
-        if zone:
-            conditions.append(Outlet.zone == zone)
         if area:
             conditions.append(Outlet.area == area)
         
@@ -112,7 +108,6 @@ class PromotionRepository:
                 "outlet_name": outlet.outlet_name,
                 "promotion_id": promotion_id,
                 "region": outlet.region,
-                "zone": outlet.zone,
                 "area": outlet.area,
                 "total_photos": image_count
             }

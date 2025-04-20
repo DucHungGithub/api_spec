@@ -5,7 +5,6 @@ class OutletResponseModel(BaseModel):
     outlet_id: str 
     outlet_name: str  
     region: str  
-    zone: str
     area: str
 
 class OutletPaginationResponseModel(BaseModel):

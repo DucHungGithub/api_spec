@@ -13,13 +13,13 @@ class OutletRouter(APIRouter):
     def __init__(self, *args, **kwargs) -> None:
         super(OutletRouter, self).__init__(*args, **kwargs)
         
-        # self.add_api_route(
-        #     "/",
-        #     self.get_outlets,
-        #     methods=["GET"],
-        #     status_code=200,
-        #     summary="Get list of outlets with optional filters"
-        # )
+        self.add_api_route(
+            "/",
+            self.get_outlets,
+            methods=["GET"],
+            status_code=200,
+            summary="Get list of outlets with optional filters"
+        )
         
         self.add_api_route(
             "/{outlet_id}",
@@ -54,24 +54,23 @@ class OutletRouter(APIRouter):
     async def get_outlets(
         self,
         region: Optional[str] = Query(None, description="Filter outlets by region"),
-        zone: Optional[str] = Query(None, description="Filter outlets by zone"),
         area: Optional[str] = Query(None, description="Filter outlets by area"),
         limit: int = Query(10, description="Limit the number of outlets returned"),
         offset: int = Query(0, description="Offset for pagination")
     ) -> OutletPaginationResponseModel:
         """
-        Returns a list of outlets, filtered by Region, Zone, and/or Area if provided.
-        Only outlets in the specified region, zone, or area will be returned.
+        Returns a list of outlets, filtered by Region, and/or Area if provided.
+        Only outlets in the specified region, or area will be returned.
         """
         total = 90
-        outlets = [OutletResponseModel(outlet_id=str(i), outlet_name=f"Outlet {i}", region=f"Region {i}", zone=f"Zone {i}", area=f"Area {i}") for i in range(1, total + 1)]
+        outlets = [OutletResponseModel(outlet_id=str(i), outlet_name=f"Outlet {i}", region=f"Region {i}", area=f"Area {i}") for i in range(1, total + 1)]
         return OutletPaginationResponseModel(data=outlets[offset:offset+limit], total=total)
     
     async def get_outlet(self, outlet_id: str) -> OutletResponseModel:
         """
         Returns details of a specific outlet identified by outlet_id.
         """
-        return OutletResponseModel(outlet_id=outlet_id, outlet_name=f"Outlet {outlet_id}", region=f"Region {outlet_id}", zone=f"Zone {outlet_id}", area=f"Area {outlet_id}")
+        return OutletResponseModel(outlet_id=outlet_id, outlet_name=f"Outlet {outlet_id}", region=f"Region {outlet_id}", area=f"Area {outlet_id}")
     
     async def get_outlet_promotions(
         self, 

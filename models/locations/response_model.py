@@ -4,7 +4,7 @@ class LocationResponseModel(BaseModel):
     id: str
     name: str
     
-class ZoneResponseModel(LocationResponseModel):
+class AreaResponseModel(LocationResponseModel):
     pass
 
 class RegionResponseModel(LocationResponseModel):

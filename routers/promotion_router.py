@@ -31,6 +31,15 @@ class PromotionRouter(APIRouter):
             summary="Get list of outlets of promotion"
         )
         
+        
+        self.add_api_route(
+            "/{promotion_id}/outlets/{outlet_id}",
+            self.get_promotion_outlet,
+            methods=["GET"],
+            status_code=200,
+            summary="Get detail of a specific outlet of promotion"
+        )
+        
         self.add_api_route(
             "/{promotion_id}/outlets/{outlet_id}/images",
             self.get_promotion_images,
@@ -38,6 +47,8 @@ class PromotionRouter(APIRouter):
             status_code=200,
             summary="Get images for a specific promotion"
         )
+        
+        
         
         self.add_api_route(
             "/{promotion_id}/outlets/{outlet_id}/images/{image_id}",
@@ -61,7 +72,6 @@ class PromotionRouter(APIRouter):
     async def get_promotions(
         self,
         region: Optional[str] = Query(None, description="Filter promotions by region"),
-        zone: Optional[str] = Query(None, description="Filter promotions by zone"),
         area: Optional[str] = Query(None, description="Filter promotions by area"),
         id: Optional[str] = Query(None, description="Filter promotions by id"),
         name: Optional[str] = Query(None, description="Filter promotions by name"),
@@ -69,15 +79,14 @@ class PromotionRouter(APIRouter):
         offset: int = Query(0, description="Offset for pagination")
     ) -> PromotionPaginationResponseModel:
         """
-        Returns a list of promotions, filtered by Region, Zone, and/or Area if provided.
-        Only promotions available at outlets in the specified region, zone, or area will be returned.
+        Returns a list of promotions, filtered by Region, and/or Area if provided.
+        Only promotions available at outlets in the specified region, or area will be returned.
         """
         total = 100
         promotions = [PromotionResponseModel(
             promotion_id=str(i),
             promotion_name=f"Promotion {i}",
             region=f"Region {i}",
-            zone=f"Zone {i}",
             area=f"Area {i}",
             sa_kpi_progress=0.8,
             fa_kpi_progress=0.8
@@ -104,7 +113,6 @@ class PromotionRouter(APIRouter):
                 promotion_id=promotion_id,
                 outlet_name=f"Outlet {i}", 
                 region=f"Region {i}", 
-                zone=f"Zone {i}", 
                 area=f"Area {i}",
                 ai_validation_result=ValidationStatus.FAILED,
                 fa_validated_result=ValidationStatus.PASSED,
@@ -119,7 +127,6 @@ class PromotionRouter(APIRouter):
                 promotion_id=promotion_id,
                 outlet_name=f"Outlet {i}", 
                 region=f"Region {i}", 
-                zone=f"Zone {i}", 
                 area=f"Area {i}",
                 ai_validation_result=ValidationStatus.PASSED,
                 fa_validated_result=ValidationStatus.FAILED,
@@ -134,7 +141,6 @@ class PromotionRouter(APIRouter):
                 promotion_id=promotion_id,
                 outlet_name=f"Outlet {i}", 
                 region=f"Region {i}", 
-                zone=f"Zone {i}", 
                 area=f"Area {i}",
                 ai_validation_result=ValidationStatus.UNVALIDATED,
                 fa_validated_result=ValidationStatus.FAILED,
@@ -163,7 +169,23 @@ class PromotionRouter(APIRouter):
             total_photos=total_photos
         )
                 
-            
+        
+    async def get_promotion_outlet(
+        self,
+        promotion_id: str,
+        outlet_id: str
+    ) -> OutletJoinedPromotionResponseModel:
+        return  OutletJoinedPromotionResponseModel(
+                outlet_id=outlet_id, 
+                promotion_id=promotion_id,
+                outlet_name=f"Outlet sample", 
+                region=f"Region sample", 
+                area=f"Area Sample",
+                ai_validation_result=ValidationStatus.FAILED,
+                fa_validated_result=ValidationStatus.PASSED,
+                sa_validated_result=ValidationStatus.FAILED,
+                total_photos=10
+            )
        
     async def get_promotion_images(
         self, 

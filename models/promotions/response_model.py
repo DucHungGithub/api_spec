@@ -7,7 +7,6 @@ class PromotionResponseModel(BaseModel):
     promotion_id: str 
     promotion_name: str
     region: str
-    zone: str
     area: str
     sa_kpi_progress: float
     fa_kpi_progress: float
@@ -21,7 +20,6 @@ class OutletJoinedPromotionResponseModel(BaseModel):
     outlet_name: str
     promotion_id: str
     region: str
-    zone: str
     area: str
     ai_validation_result: ValidationStatus
     sa_validated_result: ValidationStatus

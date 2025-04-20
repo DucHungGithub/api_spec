@@ -24,7 +24,6 @@ class OutletRepository:
     def get_outlets(
         self,
         region: Optional[str] = None,
-        zone: Optional[str] = None,
         area: Optional[str] = None,
         limit: int = 10,
         offset: int = 0
@@ -34,8 +33,6 @@ class OutletRepository:
         # Apply filters
         if region:
             query = query.where(Outlet.region == region)
-        if zone:
-            query = query.where(Outlet.zone == zone)
         if area:
             query = query.where(Outlet.area == area)
             
@@ -43,8 +40,6 @@ class OutletRepository:
         total_query = select(Outlet)
         if region:
             total_query = total_query.where(Outlet.region == region)
-        if zone:
-            total_query = total_query.where(Outlet.zone == zone)
         if area:
             total_query = total_query.where(Outlet.area == area)
             
