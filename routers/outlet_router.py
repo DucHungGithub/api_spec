@@ -13,13 +13,13 @@ class OutletRouter(APIRouter):
     def __init__(self, *args, **kwargs) -> None:
         super(OutletRouter, self).__init__(*args, **kwargs)
         
-        self.add_api_route(
-            "/",
-            self.get_outlets,
-            methods=["GET"],
-            status_code=200,
-            summary="Get list of outlets with optional filters"
-        )
+        # self.add_api_route(
+        #     "/",
+        #     self.get_outlets,
+        #     methods=["GET"],
+        #     status_code=200,
+        #     summary="Get list of outlets with optional filters"
+        # )
         
         self.add_api_route(
             "/{outlet_id}",
